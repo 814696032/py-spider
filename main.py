@@ -6,8 +6,10 @@ import re
 import os
 import urllib
 import lxml
+import time
 from urllib import request,parse
 from bs4 import BeautifulSoup
+
 
 class Baidu_spider():
     def __init__(self):
@@ -18,11 +20,17 @@ class Baidu_spider():
         keyword = input('输入关键字：')
         INIT = eval(input("从第几页开始爬取："))
         N = eval(input("爬取的页数(每页20张图)："))
+        tic = time.time()
         self.crawler_img(keyword,INIT,N)
+        toc = time.time()
+        print("总计耗时：%s秒" % (toc - tic))
+        print("爬取范围：第%s页 到 第%s页" %(INIT,N-1+INIT))
 
     def crawler_img(self,keyword,INIT,N):
-        son_folders = os.path.exists('/image/%s' %keyword)
+        son_folders = os.path.exists('./image/%s' %keyword)
+        print(son_folders)
         if not son_folders:
+            print("a a ")
             os.makedirs('./image/%s' %keyword)
         keyword_encode = parse.quote(keyword)  # 可以把字符串编码为url的格式
         for page in range(INIT-1,N):
@@ -49,5 +57,8 @@ class Baidu_spider():
         print("下载完成！")
 
 
-s = Baidu_spider()
+if __name__ == "__main__":
+
+    s = Baidu_spider()
+
 
